@@ -61,6 +61,14 @@
               golangci-lint
             ];
           };
+
+          flutter = pkgs.mkShell {
+            buildInputs = with pkgs; [
+              flutter
+              dart
+              android-tools
+            ];
+          };
         };
       }) // {
         templates = {
