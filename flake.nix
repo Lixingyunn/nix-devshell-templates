@@ -10,20 +10,26 @@
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
+
+        defaultShell = pkgs.mkShell {
+          buildInputs = with pkgs; [
+            nixfmt-rfc-style
+            nil
+            git
+            gh
+          ];
+          shellHook = ''
+            echo "❄️ Welcome to Lixingyunn Nix DevShell Templates!"
+          '';
+        };
       in
       {
+        packages = {
+          default = defaultShell.inputDerivation;
+        };
+
         devShells = {
-          default = pkgs.mkShell {
-            buildInputs = with pkgs; [
-              nixfmt-rfc-style
-              nil
-              git
-              gh
-            ];
-            shellHook = ''
-              echo "❄️ Welcome to Lixingyunn Nix DevShell Templates!"
-            '';
-          };
+          default = defaultShell;
 
           python = pkgs.mkShell {
             buildInputs = with pkgs; [
